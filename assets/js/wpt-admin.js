@@ -1,6 +1,7 @@
 jQuery(document).ready(function($){ 
 
 	$('input[type="checkbox"]').live('change', function() {
+		alert($(this).attr('data-key')+': '+$(this).is(':checked'));
 			$.post(ajaxurl, {
 				 action: 'wpt_update_lists',
 				 id: $(this).attr('data-key'),

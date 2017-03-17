@@ -415,8 +415,9 @@ class trello_oauth {
 		$savedListIds = get_option('wptsettings_lists');
 
 		// Update savedLists
-		$this->saveLists($lists);	
-
+		if ( empty($savedListIds) ) {
+			$this->saveLists($lists);	
+		}
 		// Iterate over all lists and check which ones
 		// are saved as options and flag them.
 		foreach ( $lists as $list ) {

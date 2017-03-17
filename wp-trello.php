@@ -303,7 +303,7 @@ class wp_trello {
 								}
 
 								$class = '';
-								if ( $i == 0 ) $class = 'active';
+								if ( $item->isFirst ) $class = 'active';
 								if ( $item->isActive ) {
 									$html .= '<li class="'.$class.'"><a href="#" title="'.$item->name.'" data-toggle="list_'.$i.'" class="nav-link--roadmap">'.$item_name.'</a></li>';
 								}
@@ -322,7 +322,7 @@ class wp_trello {
 				// Show only active lists
 				if ( $item->isActive ) {
 					foreach($this->get_data( "cards", $item->id ) as $card) {
-						if ( $i == 0 ) {
+						if ( $item->isFirst ) {
 							$html .= '<div class="fluidtable__row" data-list-id="list_'.$i.'">';
 						} else {
 							$html .= '<div class="fluidtable__row" data-list-id="list_'.$i.'" style="display: none;">';
@@ -380,9 +380,14 @@ class wp_trello {
 
 	function getActiveLists($lists) {
 		$savedLists = get_option('wptsettings_lists');
+		$first = true;
 		foreach ( $lists as $list ) {
 			if ( $savedLists[$list->id] ) {
 				$list->isActive = true;
+				if ( $first ) {
+					$list->isFirst = true;
+					$first = false;
+				}
 			}
 		}
 		return $lists;
@@ -469,7 +474,7 @@ class wp_trello {
 
 		foreach ( $savedListIds as $savedListId => $val ) {
 			if ( $savedListId == $_POST['id'] ) {
-				$savedListIds[$savedListId] = (bool) $_POST['new']; // change value
+				$savedListIds[$savedListId] = !$savedListIds[$savedListId]; // change value
 			}
 		}
 
