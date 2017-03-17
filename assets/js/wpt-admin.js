@@ -8,7 +8,7 @@ jQuery(document).ready(function($){
 				 nonce: wp_trello.nonce
 			 }, 
 			function(data) {
-				console.log(JSON.stringify(data.objects));
+				//console.log(JSON.stringify(data.objects));
 			}, 'json');
 	 });
 
@@ -84,7 +84,6 @@ jQuery(document).ready(function($){
 				 nonce: wp_trello.nonce
 			 }, 
 			function(data) {
-				console.log(JSON.stringify(data.objects));
 				$td = $('select[name="wptsettings_settings[wptsettings_helper_lists]"]').parent();
 				$td.empty();
 				$.each(data.objects, function(key, val) {
