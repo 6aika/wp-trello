@@ -390,17 +390,25 @@ class trello_oauth {
 
 	function getDropdown( $data, $object ) {
 		$select   = array();
-		$select[] = 'Select ' . ucfirst( $object );
 		if ( empty( $data ) ) {
 			return $select;
 		}
 
+		$chosen = '';
 		if ( $object == 'organization' ) {
-			$select[] = 'My Boards';
+			$select['1']['title'] = 'My Boards';
+			$select['1']['isSelected'] = false;
+			$chosen = get_option('wptsettings_settings')['wptsettings_helper_orgs'];
+		} else if ( $object == 'board' ) {
+			$chosen = get_option('wptsettings_settings')['wptsettings_helper_boards'];
 		}
 
 		foreach ( $data as $item ) {
-			$select[ $item->id ] = isset( $item->displayName ) ? $item->displayName : $item->name;
+			$select[ $item->id ]['isSelected'] = false;
+			if ( $chosen == $item->id ) {
+				$select[ $item->id ]['isSelected'] = true;	
+			}
+			$select[ $item->id ]['title'] = isset( $item->displayName ) ? $item->displayName : $item->name;
 		}
 
 		return $select;

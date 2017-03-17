@@ -63,14 +63,6 @@ $wptsf_settings[] = array(
 			'type'    => 'lists',
 			'choices' => array(),
 			'std'     => '',
-		),
-		array(
-			'id'      => 'cards',
-			'title'   => __( 'Cards', $plugin_l10n ),
-			'desc'    => __( '', $plugin_l10n ),
-			'type'    => 'cards',
-			'choices' => array(),
-			'std'     => '',
-		),
+		)
 	),
 );

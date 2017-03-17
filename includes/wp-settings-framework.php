@@ -182,7 +182,13 @@ if ( ! class_exists( 'wpt_WordPressSettingsFramework' ) ) {
 
 			do_action( 'wpsf_before_field' );
 			do_action( 'wpsf_before_field_' . $el_id );
+
+			$chosen_org 		= get_option('wptsettings_settings')['wptsettings_helper_orgs'];
+			$chosen_board 	= get_option('wptsettings_settings')['wptsettings_helper_boards'];
+			$access_token = $wp_trello->get_access_token();
+
 			switch ( $type ) {
+				
 				case 'text':
 					$val = esc_attr( stripslashes( $val ) );
 					echo '<input type="text" name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" value="' . $val . '" class="regular-text ' . $class . '" />';
@@ -291,40 +297,69 @@ if ( ! class_exists( 'wpt_WordPressSettingsFramework' ) ) {
 					echo $std;
 					break;
 				case 'organizations':
-					$access_token = $wp_trello->get_access_token();
 					$disabled     = '';
 					if ( $access_token == '' ) {
-						$choices  = array( 0 => 'Connect with Trello' );
-						$disabled = ' disabled="disabled"';
+						break;
 					} else {
 						$trello  = new trello_oauth( $access_token['oauth_token'], $access_token['oauth_token_secret'] );
 						$orgs    = $trello->getOrganizations();
 						$choices = $trello->getDropdown( $orgs, 'organization' );
 					}
 					$val = esc_html( esc_attr( $val ) );
-					echo '<select name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" class="' . $class . '"' . $disabled . '>';
+					echo '<select name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" class="' . $class . '"' . $disabled . ' onchange="this.form.submit()">';
+					echo '<option value="0">Select Organization</option>';
 					foreach ( $choices as $ckey => $cval ) {
-						echo '<option value="' . $ckey . '">' . $cval . '</option>';
+						if ( $chosen_org == $ckey ) {
+							echo '<option value="' . $ckey . '" selected="selected">' . $cval['title'] . '</option>';
+						} else {
+							echo '<option value="' . $ckey . '">' . $cval['title'] . '</option>';
+						}
 					}
-					echo '</select>  ID: <span id="org-id"></span>';
+					echo '</select>';
 					if ( $desc ) {
 						echo '<p class="description">' . $desc . '</p>';
 					}
 					break;
 				case 'boards':
-					echo '<select name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" class="' . $class . '" disabled="disabled">';
+					$access_token = $wp_trello->get_access_token();
+					$disabled     = '';
+					if ( $access_token == '' ) {
+						break;
+					} else {
+						$trello  		= new trello_oauth( $access_token['oauth_token'], $access_token['oauth_token_secret'] );
+						$boards    	= $trello->getBoards($chosen_org);
+						$choices 		= $trello->getDropdown( $boards, 'board' );
+					}
+					if ( $chosen_org == '' ) $disabled = ' disabled="disabled"';
+					echo '<select name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" class="' . $class . '"' . $disabled . ' onchange="this.form.submit()">';
 					echo '<option value="0">Select Board</option>';
-					echo '</select>  ID: <span id="board-id"></span>';
+					foreach ( $choices as $ckey => $cval ) {
+						if ( $chosen_board == $ckey ) {
+							echo '<option value="' . $ckey . '" selected="selected">' . $cval['title'] . '</option>';
+						} else {
+							echo '<option value="' . $ckey . '">' . $cval['title'] . '</option>';
+						}
+					}	
+					echo '</select>';
 					break;
+
 				case 'lists':
-					echo '<select name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" class="' . $class . '" disabled="disabled">';
-					echo '<option value="0">Select List</option>';
-					echo '</select>  ID: <span id="list-id"></span>';
-					break;
-				case 'cards':
-					echo '<select name="' . $this->option_group . '_settings[' . $el_id . ']" id="' . $el_id . '" class="' . $class . '" disabled="disabled">';
-					echo '<option value="0">Select Card</option>';
-					echo '</select>  ID: <span id="card-id"></span>';
+					$access_token = $wp_trello->get_access_token();
+					$disabled     = '';
+					if ( $access_token == '' ) {
+						break;
+					} else {
+						$trello  						= new trello_oauth( $access_token['oauth_token'], $access_token['oauth_token_secret'] );
+						$lists    					= $trello->getLists($chosen_board);
+						$choices 						= $trello->getCheckboxes( $lists );
+					}
+					foreach ( $choices as $ckey => $cval ) {
+						if ( $cval['isShown'] ) {
+							echo '<label><input type="checkbox" class="listcheckbox" data-key="'.$ckey.'" name="wptsettings_lists['.$ckey.']" checked="checked" />'.$cval["title"].'</label><br>';
+						} else {
+							echo '<label><input type="checkbox" class="listcheckbox" data-key="'.$ckey.'" name="wptsettings_lists['.$ckey.']" />'.$cval["title"].'</label><br>';
+						}
+					}	
 					break;
 
 				default:

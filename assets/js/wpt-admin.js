@@ -26,35 +26,15 @@ jQuery(document).ready(function($){
 	 });
 	 
 	 $('select[name="wptsettings_settings[wptsettings_helper_boards]"]').change(function(){
-		var objectid = $('option:selected', this).val();
+		/*var objectid = $('option:selected', this).val();
 		$('#board-id').html('');
 		resetDropdown('Lists');
 		resetDropdown('Cards');
 		if (objectid != '0') {
 			$('#board-id').html(objectid);
 			populateCheckboxes(objectid);
-		}
-		
-	 });
-	 
-	 $('select[name="wptsettings_settings[wptsettings_helper_lists]"]').change(function(){
-		var objectid = $('option:selected', this).val();
-		$('#list-id').html('');
-		resetDropdown('Cards');
-		if (objectid != '0') {
-			$('#list-id').html(objectid);
-			populateDropdown(objectid, 'cards');
-		}
-		
-	 });
-	 
-	 $('select[name="wptsettings_settings[wptsettings_helper_cards]"]').change(function(){
-		var objectid = $('option:selected', this).val();
-		$('#card-id').html('');
-		if (objectid != '0') {
-			$('#card-id').html(objectid);
-		}
-		
+		}*/
+			
 	 });
 	 
 	 function populateDropdown(id, type) {
@@ -64,12 +44,16 @@ jQuery(document).ready(function($){
             	type: type,
             	nonce: wp_trello.nonce }, 
             function(data){
-                new_object = 'select[name="wptsettings_settings[wptsettings_helper_' + type + ']"]';
-                $(new_object).empty();
-                $.each(data.objects, function(key, val) {
-					$(new_object).append('<option value="' + key + '">' + val +'</option>');
-				})
-				$(new_object).removeAttr('disabled');
+							new_object = 'select[name="wptsettings_settings[wptsettings_helper_' + type + ']"]';
+							$(new_object).empty();
+							$.each(data.objects, function(key, val) {
+								if ( val.isSelected ) {
+									$(new_object).append('<option value="' + key + '" selected="selected">' + val.title +'</option>');
+								} else {
+									$(new_object).append('<option value="' + key + '">' + val.title +'</option>');
+								}
+							});
+							$(new_object).removeAttr('disabled');
             }
         , 'json');
         return false;

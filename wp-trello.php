@@ -171,9 +171,6 @@ class wp_trello {
 			<form action="options.php" method="post">
 				<?php settings_fields( $this->wpsf->get_option_group() ); ?>
 				<?php $this->do_settings_sections( $this->wpsf->get_option_group() ); ?>
-				<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', $this->plugin_l10n ); ?>" />
-				</p>
 			</form>
 		</div>
 		<?php
@@ -191,10 +188,23 @@ class wp_trello {
 			if ( ! isset( $wp_settings_fields ) || ! isset( $wp_settings_fields[ $page ] ) || ! isset( $wp_settings_fields[ $page ][ $section['id'] ] ) ) {
 				continue;
 			}
-			echo '<table class="form-table">';
-			do_settings_fields( $page, $section['id'] );
-			echo '</table>
-            </div>';
+
+			// API Helper section
+			if ( $section['id'] == 'helper' ) {
+				$access_token = $this->get_access_token();
+				if ( $access_token != '' ) {
+					echo '<table class="form-table">';
+					do_settings_fields( $page, $section['id'] );
+					echo '</table>';
+				} else {
+					echo '<h3>Connect with Trello</h3>';
+				}
+			} else {
+				echo '<table class="form-table">';
+				do_settings_fields( $page, $section['id'] );
+				echo '</table>';
+			}
+      echo '</div>';
 		}
 	}
 
