@@ -83,6 +83,7 @@ class wp_trello {
 		add_action( 'wp_ajax_wpt_update_lists', array( $this, 'wpt_update_lists' ) );
 		add_filter( 'plugin_action_links', array( $this, 'plugin_settings_link' ), 10, 2 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'custom_css' ) );
+    add_action( 'wp_enqueue_scripts', array( $this, 'add_plugin_scripts' ) );
 
 		add_shortcode( 'wp-trello', array( $this, 'trello_data' ) );
 		if ( $this->is_connected() ) {
@@ -112,6 +113,11 @@ class wp_trello {
 			wp_enqueue_style( 'wpt-admin-css' );
 		}
 	}
+
+	function add_plugin_scripts() {
+    wp_register_script( 'wpt-js', plugins_url( 'assets/js/wpt.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
+    wp_enqueue_script( 'wpt-js' );
+  }
 
 	function custom_css() {
 		$custom_css = $this->default_val( $this->settings, 'wptsettings_general_output-css', '' );
@@ -284,7 +290,14 @@ class wp_trello {
 		$data = $this->getActiveLists($data);
 
 		if ( is_array( $data ) ) {
-			$html = '<div class="fluidtable">';
+      $html = '<select id="label-filter" class="form-control">';
+      $cities = $this->getDistinctLabelNames($data, null);
+      foreach($cities as $labelName) {
+        $html .= '<option value="' . $labelName . '">'. $labelName . '</option>';
+      }
+      $html .= '</select>';
+
+			$html .= '<div class="fluidtable">';
 			$html .= '<div class="container-fluid">';
 				$html .= '<h1 class="fluidtable__heading">Roadmap</h1>';
 			$html .= '</div>';
@@ -301,7 +314,7 @@ class wp_trello {
 							$html .= '</button>';
 						$html .= '</div>';
 						$html .= '<div>';
-							$html .= '<ul class="nav navbar-nav">';
+							$html .= '<ul class="nav navbar-nav" id="fluidtable__tabs">';
 							// Roadmap navigation									
 							foreach ( $data as $i => $item ) {
 
@@ -333,9 +346,9 @@ class wp_trello {
 				if ( $item->isActive ) {
 					foreach($this->get_data( "cards", $item->id ) as $card) {
 						if ( $item->isFirst ) {
-							$html .= '<div class="fluidtable__row" data-list-id="list_'.$i.'">';
+							$html .= '<div class="fluidtable__row" data-list-id="list_'.$i.'" data-labels="'.(string)$card->labels.'">';
 						} else {
-							$html .= '<div class="fluidtable__row" data-list-id="list_'.$i.'" style="display: none;">';
+							$html .= '<div class="fluidtable__row" data-list-id="list_'.$i.'" style="display: none;" data-labels="'.$this->getLabelNamesString($card->labels).'">';
 						}
 							$html .= '<div class="fluidtable__cell fluidtable__cell--meta">';
 								$html .= '<div class="fluidtable__cell-content"><span>'.parse_date($card->dateLastActivity).'</span></div>';
@@ -407,6 +420,38 @@ class wp_trello {
 			$d = DateTime::createFromFormat("Y-m-d\TH:i:s.000\Z", $date);
 			return $d->format('j.n.Y');
 	}
+
+  function hasLabel($labels, $labelName, $labelColor) {
+    foreach($labels as $labelObject) {
+      if($labelObject['name'] == $labelName && $labelObject['color'] == $labelColor) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getLabelNamesString($labels) {
+	  $labelNames = [];
+
+	  foreach ($labels as $label) {
+	    array_push($labelNames, $label->name);
+    }
+    return implode(",", $labelNames);
+  }
+
+  function getDistinctLabelNames($data, $labelColor) {
+    $labelNames = [];
+    foreach ($data as $board) {
+      foreach ($board->cards as $card) {
+        foreach ($card->labels as $label) {
+          if($labelColor == $label->color && in_array($label->name, $labelNames) == false) {
+            array_push($labelNames, $label->name);
+          }
+        }
+      }
+    }
+    return $labelNames;
+  }
 
 	function get_dropdown_data( $object, $id ) {
 		$trello_data  = get_option( 'wptsettings_trello' );

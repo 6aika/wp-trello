@@ -357,7 +357,7 @@ class trello_oauth {
 	}
 
 	function getLists( $board ) {
-		$params    = array();
+		$params    = array('cards' => 'all');
 		$all_lists = $this->get( 'boards/' . $board . '/lists', $params, 0 );
 
 		return $all_lists;
