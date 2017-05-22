@@ -290,30 +290,22 @@ class wp_trello {
 		$data = $this->getActiveLists($data);
 
 		if ( is_array( $data ) ) {
-      $html = '<select id="label-filter" class="form-control">';
-      $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
-      $cities = $this->getDistinctLabelNames($data, null);
-      foreach($cities as $labelName) {
-        $html .= '<option value="' . $labelName . '">'. $labelName . '</option>';
-      }
-      $html .= '</select>';
-
-			$html .= '<div class="fluidtable">';
+			$html = '<div class="fluidtable">';
 			$html .= '<div class="container-fluid">';
 				$html .= '<h1 class="fluidtable__heading">Roadmap</h1>';
+        $html .= '<select id="label-filter" class="form-control">';
+        $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
+        $cities = $this->getDistinctLabelNames($data, null);
+        foreach($cities as $labelName) {
+          $html .= '<option value="' . $labelName . '">'. $labelName . '</option>';
+        }
+        $html .= '</select>';
 			$html .= '</div>';
+
 			$html .= '<div class="fluidtable__wrapper">';
 			$html .= '<div class="fluidtable__header">';
 				$html .= '<nav class="navbar navbar-secondary fluidtable__navbar" role="tabs" aria-label="Roadmap tabs">';
 					$html .= '<div class="container-fluid">';
-						$html .= '<div class="navbar-header">';
-							$html .= '<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#roadmap-nav-collapse" aria-expanded="false">';
-								$html .= '<span class="sr-only">Toggle navigation</span>';
-								$html .= '<span class="icon-bar"></span>';
-								$html .= '<span class="icon-bar"></span>';
-								$html .= '<span class="icon-bar"></span>';
-							$html .= '</button>';
-						$html .= '</div>';
 						$html .= '<div>';
 							$html .= '<ul class="nav navbar-nav" id="fluidtable__tabs">';
 							// Roadmap navigation									
