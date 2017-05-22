@@ -291,6 +291,7 @@ class wp_trello {
 
 		if ( is_array( $data ) ) {
       $html = '<select id="label-filter" class="form-control">';
+      $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
       $cities = $this->getDistinctLabelNames($data, null);
       foreach($cities as $labelName) {
         $html .= '<option value="' . $labelName . '">'. $labelName . '</option>';
