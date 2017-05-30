@@ -31,7 +31,13 @@ $wptsf_settings[] = array(
 			'type'  => 'checkbox',
 			'std'   => false,
 		),
-
+    array(
+      'id'    => 'content-editor',
+      'title' => __( 'Introduction', $plugin_l10n ),
+      'desc'  => __( 'Adds text or an image to be displayed before the table.', $plugin_l10n ),
+      'type'  => 'editor',
+      'std'   => '',
+    ),
 	),
 );
 // API Helper section
