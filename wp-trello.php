@@ -177,7 +177,6 @@ class wp_trello {
 			<form action="options.php" method="post">
 				<?php settings_fields( $this->wpsf->get_option_group() ); ?>
 				<?php $this->do_settings_sections( $this->wpsf->get_option_group() ); ?>
-        <p class="submit"><input type="submit" class="button-primary" value="<?php _e( 'Save Changes' ); ?>" /></p>
 			</form>
 		</div>
 		<?php
@@ -293,11 +292,6 @@ class wp_trello {
 		if ( is_array( $data ) ) {
 			$html = '<div class="fluidtable">';
 			$html .= '<div class="container-fluid">';
-
-        $intro = $this->default_val( $this->settings, 'wptsettings_general_content-editor', '' );
-        if ( $intro != '' ) {
-          $html .= '<div class="intro">' . $intro . '</div>';
-        }
 
 				$html .= '<h1 class="fluidtable__heading">Roadmap</h1>';
         $html .= '<select id="label-filter" class="form-control">';
