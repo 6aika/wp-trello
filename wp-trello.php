@@ -309,20 +309,20 @@ class wp_trello {
 					$html .= '<div class="container-fluid">';
 						$html .= '<div>';
 							$html .= '<ul class="nav navbar-nav" id="fluidtable__tabs">';
-							// Roadmap navigation									
+
+							// Roadmap navigation
+              $roadmap_headers = [
+                array('name' => __('Suggestions', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+                array('name' => __('Planning', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+                array('name' => __('In progress', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+                array('name' => __('Finalizing', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+              ];
+
 							foreach ( $data as $i => $item ) {
-
-								$item_name_arr = explode('-', $item->name);
-								if ( $item_name_arr[1] ) {
-									$item_name = $item_name_arr[0];
-								} else {
-									$item_name = $item->name;
-								}
-
 								$class = '';
 								if ( $item->isFirst ) $class = 'active';
-								if ( $item->isActive ) {
-									$html .= '<li class="'.$class.'"><a href="#" title="'.$item->name.'" data-toggle="list_'.$i.'" class="nav-link--roadmap">'.$item_name.'</a></li>';
+								if ( $item->isActive and $i < sizeof($roadmap_headers)) {
+									$html .= '<li class="'.$class.'"><a href="#" title="'.$roadmap_headers[$i]['name'].'" data-toggle="list_'.$i.'" class="nav-link--roadmap">'.$roadmap_headers[$i]['name'].'</a></li>';
 								}
 							}
 							$html .= '</ul>';
