@@ -322,7 +322,7 @@ class wp_trello {
 								$class = '';
 								if ( $item->isFirst ) $class = 'active';
 								if ( $item->isActive and $i < sizeof($roadmap_headers)) {
-									$html .= '<li class="'.$class.'"><a href="#" title="'.$roadmap_headers[$i]['name'].'" data-toggle="list_'.$i.'" class="nav-link--roadmap">'.$roadmap_headers[$i]['name'].'</a></li>';
+									$html .= '<li class="'.$class.'"><a title="'.$roadmap_headers[$i]['name'].'" data-toggle="list_'.$i.'" class="nav-link--roadmap">'.$roadmap_headers[$i]['name'].'</a></li>';
 								}
 							}
 							$html .= '</ul>';
@@ -354,7 +354,7 @@ class wp_trello {
 							$desc = $card->desc;
 							if ( $desc == '' ) $desc = ' - ';
 							$html .= '<div class="fluidtable__cell fluidtable__cell--desc">';
-								$html .= '<div class="fluidtable__cell-content">'.$desc.'</div>';
+								$html .= '<div class="fluidtable__cell-content">'.$this->replace_links(nl2br($desc)).'</div>';
 							$html .= '</div>';
 						$html .= '</div>';
 					}
@@ -535,6 +535,16 @@ class wp_trello {
 		echo json_encode( $response );
 		die;
 	}
+
+	function replace_links($plain_text) {
+    // The Regular Expression filter
+    $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+
+    if(preg_match($reg_exUrl, $plain_text, $url)) {
+      return preg_replace($reg_exUrl, '<a target="_blank" href="'.$url[0].'" rel="nofollow">'.$url[0].'</a>', $plain_text);
+    }
+    return $plain_text;
+  }
 }
 
 global $wp_trello;
