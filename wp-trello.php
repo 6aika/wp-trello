@@ -293,7 +293,6 @@ class wp_trello {
 			$html = '<div class="fluidtable">';
 			$html .= '<div class="container-fluid">';
 
-				$html .= '<h1 class="fluidtable__heading">Roadmap</h1>';
         $html .= '<select id="label-filter" class="form-control">';
         $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
         $cities = $this->getDistinctLabelNames($data, null);
@@ -354,7 +353,7 @@ class wp_trello {
 							$desc = $card->desc;
 							if ( $desc == '' ) $desc = ' - ';
 							$html .= '<div class="fluidtable__cell fluidtable__cell--desc">';
-								$html .= '<div class="fluidtable__cell-content">'.$this->replace_links(nl2br($desc)).'</div>';
+								$html .= '<div class="fluidtable__cell-content">'.nl2br($this->replace_links($desc)).'</div>';
 							$html .= '</div>';
 						$html .= '</div>';
 					}
@@ -539,11 +538,7 @@ class wp_trello {
 	function replace_links($plain_text) {
     // The Regular Expression filter
     $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-
-    if(preg_match($reg_exUrl, $plain_text, $url)) {
-      return preg_replace($reg_exUrl, '<a target="_blank" href="'.$url[0].'" rel="nofollow">'.$url[0].'</a>', $plain_text);
-    }
-    return $plain_text;
+    return preg_replace($reg_exUrl, "<a target=\"_blank\" href=\"\\0\">\\0</a>", $plain_text);
   }
 }
 
