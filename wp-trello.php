@@ -317,11 +317,13 @@ class wp_trello {
                 array('name' => __('Finalizing', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
               ];
 
+              $tabIndex = 0;
 							foreach ( $data as $i => $item ) {
 								$class = '';
 								if ( $item->isFirst ) $class = 'active';
 								if ( $item->isActive and $i < sizeof($roadmap_headers)) {
-									$html .= '<li class="'.$class.'"><a title="'.$roadmap_headers[$i]['name'].'" data-toggle="list_'.$i.'" class="nav-link--roadmap">'.$roadmap_headers[$i]['name'].'</a></li>';
+									$html .= '<li class="'.$class.'"><a title="'.$roadmap_headers[$tabIndex]['name'].'" data-toggle="list_'.$tabIndex.'" class="nav-link--roadmap">'.$roadmap_headers[$tabIndex]['name'].'</a></li>';
+                  $tabIndex++;
 								}
 							}
 							$html .= '</ul>';
