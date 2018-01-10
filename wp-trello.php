@@ -290,9 +290,10 @@ class wp_trello {
 		$data = $this->getActiveLists($data);
 
 		if ( is_array( $data ) ) {
+			$data_active = array();
 			$html = '<div class="row">';
 			$html .= '<div class="sidebar col-md-3 col-sm-5 col-xs-12">';
-				$html .= '<ul>';
+				$html .= '<ul id="fluidtable__tabs">';
 
 				// Roadmap navigation
         $roadmap_headers = [
@@ -307,6 +308,7 @@ class wp_trello {
 					$class = '';
 					if ( $item->isFirst ) $class = 'active';
 					if ( $item->isActive and $i < sizeof($roadmap_headers)) {
+						array_push($data_active, $item);
 						$html .= '<li class="sidebar-item"><a title="'.$roadmap_headers[$tabIndex]['name'].'" data-toggle="list_'.$tabIndex.'" class="nav-link--roadmap"><span class="sidebar-icon-wrapper">
                       <span class="fa fa-long-arrow-right"></span>
                     </span>'.$roadmap_headers[$tabIndex]['name'].'</a></li>';
@@ -315,10 +317,10 @@ class wp_trello {
 				}
 				$html .= '</ul>';
 			$html .= '</div>';
-			$html .= '<div class="col-md-9 col-sm-7 col-xs-12 news-content">';
+			$html .= '<div class="col-md-9 col-sm-7 col-xs-12 news-content roadmap-content">';
 			$html .= '<div class="fluidtable">';
-			$html .= '<div class="container-fluid">';
-
+			$html .= '<div class="container-fluid roadmap-filterbar">';
+				$html .= '<span>'. __( 'Found', $this->plugin_l10n ) . ' <span id="roadmap-hits">' . sizeof($data_active) . '</span> ' . __( 'hits', $this->plugin_l10n ) . '</span>';
         $html .= '<select id="label-filter" class="form-control">';
         $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
         $cities = $this->getDistinctLabelNames($data, null);
