@@ -290,9 +290,37 @@ class wp_trello {
 		$data = $this->getActiveLists($data);
 
 		if ( is_array( $data ) ) {
-			$html = '<div class="fluidtable">';
-			$html .= '<div class="container-fluid">';
+			$data_active = array();
+			$html = '<div class="row">';
+			$html .= '<div class="sidebar col-md-3 col-sm-5 col-xs-12">';
+				$html .= '<ul id="fluidtable__tabs">';
 
+				// Roadmap navigation
+        $roadmap_headers = [
+          array('name' => __('Suggestions', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+          array('name' => __('Planning', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+          array('name' => __('In progress', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+          array('name' => __('Finalizing', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+        ];
+
+        $tabIndex = 0;
+				foreach ( $data as $i => $item ) {
+					$class = '';
+					if ( $item->isFirst ) $class = 'active';
+					if ( $item->isActive and $i < sizeof($roadmap_headers)) {
+						array_push($data_active, $item);
+						$html .= '<li class="sidebar-item"><a title="'.$roadmap_headers[$tabIndex]['name'].'" data-toggle="list_'.$tabIndex.'" class="nav-link--roadmap"><span class="sidebar-icon-wrapper">
+                      <span class="fa fa-long-arrow-right"></span>
+                    </span>'.$roadmap_headers[$tabIndex]['name'].'</a></li>';
+            $tabIndex++;
+					}
+				}
+				$html .= '</ul>';
+			$html .= '</div>';
+			$html .= '<div class="col-md-9 col-sm-7 col-xs-12 news-content roadmap-content">';
+			$html .= '<div class="fluidtable">';
+			$html .= '<div class="container-fluid roadmap-filterbar">';
+				$html .= '<span>'. __( 'Found', $this->plugin_l10n ) . ' <span id="roadmap-hits">' . sizeof($data_active) . '</span> ' . __( 'hits', $this->plugin_l10n ) . '</span>';
         $html .= '<select id="label-filter" class="form-control">';
         $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
         $cities = $this->getDistinctLabelNames($data, null);
@@ -303,34 +331,9 @@ class wp_trello {
 			$html .= '</div>';
 
 			$html .= '<div class="fluidtable__wrapper">';
-			$html .= '<div class="fluidtable__header">';
-				$html .= '<nav class="navbar navbar-secondary fluidtable__navbar" role="tabs" aria-label="Roadmap tabs">';
-					$html .= '<div class="container-fluid">';
-						$html .= '<div>';
-							$html .= '<ul class="nav navbar-nav" id="fluidtable__tabs">';
-
-							// Roadmap navigation
-              $roadmap_headers = [
-                array('name' => __('Suggestions', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
-                array('name' => __('Planning', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
-                array('name' => __('In progress', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
-                array('name' => __('Finalizing', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
-              ];
-
-              $tabIndex = 0;
-							foreach ( $data as $i => $item ) {
-								$class = '';
-								if ( $item->isFirst ) $class = 'active';
-								if ( $item->isActive and $i < sizeof($roadmap_headers)) {
-									$html .= '<li class="'.$class.'"><a title="'.$roadmap_headers[$tabIndex]['name'].'" data-toggle="list_'.$tabIndex.'" class="nav-link--roadmap">'.$roadmap_headers[$tabIndex]['name'].'</a></li>';
-                  $tabIndex++;
-								}
-							}
-							$html .= '</ul>';
-						$html .= '</div>';
-					$html .= '</div>';
-				$html .= '</nav>';
-			$html .= '</div>';
+			/*$html .= '<div class="fluidtable__header">';
+				
+			$html .= '</div>';*/
 
 			// Roadmap datasets
 			$html .= '<div class="fluidtable__body">';
@@ -366,6 +369,8 @@ class wp_trello {
 
 			$html .= '</div>'; // fluidtable__wrapper
 			$html .= '</div>'; // fluidtable
+			$html .= '</div>'; // news-content
+			$html .= '</div>'; // row
 		} else {
 			$html = '<div class="wpt-' . $singular . '-wrapper">';
 			$html .= '<div class="wpt-' . $singular . '">';

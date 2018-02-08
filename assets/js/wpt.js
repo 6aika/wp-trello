@@ -5,6 +5,7 @@ jQuery(document).ready(function($) {
     var tabs = $('#fluidtable__tabs li');
     var activeListId = 'list_' + tabs.index(tabs.filter('.active'));
 
+    var count = 0;
     $('.fluidtable__row').each(function() {
       var labels = $(this).attr('data-labels').split(",");
       var rowListId = $(this).attr('data-list-id');
@@ -12,15 +13,18 @@ jQuery(document).ready(function($) {
       // Show the row if it has the selected label and its in the active tab
       if (selectedFilter !== '' && labels.includes(selectedFilter) && rowListId == activeListId) {
         $(this).show();
+        count++;
       }
       // Show all in the active tab if filter was not selected
       else if(selectedFilter === '' && rowListId == activeListId) {
         $(this).show();
+        count++;
       }
       else {
         $(this).hide();
       }
     });
+    document.getElementById('roadmap-hits').textContent = count;
   };
 
   $('.nav-link--roadmap').on('click', function() {
