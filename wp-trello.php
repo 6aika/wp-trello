@@ -115,8 +115,10 @@ class wp_trello {
 	}
 
 	function add_plugin_scripts() {
-    wp_register_script( 'wpt-js', plugins_url( 'assets/js/wpt.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
-    wp_enqueue_script( 'wpt-js' );
+        if( is_page( array( 'tyon-alla' ) ) ){
+	        wp_register_script( 'wpt-js', plugins_url( 'assets/js/wpt.js', __FILE__ ), array( 'jquery' ), $this->plugin_version );
+            wp_enqueue_script( 'wpt-js' );
+        }
   }
 
 	function custom_css() {
