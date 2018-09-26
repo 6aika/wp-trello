@@ -6,3 +6,4 @@ file_filter = lang/wp-trello-<lang>.po
 source_file = lang/wp-trello.pot
 source_lang = en
 type = PO
+
