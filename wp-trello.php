@@ -302,16 +302,15 @@ class wp_trello {
           array('name' => __('Suggestions', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
           array('name' => __('Planning', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
           array('name' => __('In progress', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
-          array('name' => __('Finalizing', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n)),
+          array('name' => __('Finalizing', $this->plugin_l10n), 'description' => __('', $this->plugin_l10n), 'default' => true),
         ];
 
         $tabIndex = 0;
 				foreach ( $data as $i => $item ) {
 					$class = '';
-					if ( $item->isFirst ) $class = 'active';
 					if ( $item->isActive and $i < sizeof($roadmap_headers)) {
 						array_push($data_active, $item);
-						$html .= '<li class="sidebar-item"><a title="'.$roadmap_headers[$tabIndex]['name'].'" data-toggle="list_'.$tabIndex.'" class="nav-link--roadmap"><span class="sidebar-icon-wrapper">
+						$html .= '<li class="sidebar-item' . ($roadmap_headers[$tabIndex]['default'] ? ' active' : '') . '"><a title="'.$roadmap_headers[$tabIndex]['name'].'" data-toggle="list_'.$tabIndex.'" class="nav-link--roadmap"><span class="sidebar-icon-wrapper">
                       <span class="fa fa-long-arrow-right"></span>
                     </span>'.$roadmap_headers[$tabIndex]['name'].'</a></li>';
             $tabIndex++;
