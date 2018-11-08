@@ -1,14 +1,14 @@
-# Copyright (C) 2017 
+# Copyright (C) 2018 
 # This file is distributed under the same license as the  package.
 msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/wp-trello\n"
-"POT-Creation-Date: 2017-12-29 07:39:42+00:00\n"
+"POT-Creation-Date: 2018-11-08 12:16:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -72,34 +72,42 @@ msgstr ""
 msgid "Add Link"
 msgstr ""
 
-#: wp-trello.php:131
+#: wp-trello.php:133
 msgid "WP Trello"
 msgstr ""
 
-#: wp-trello.php:139
+#: wp-trello.php:141
 msgid "Settings"
 msgstr ""
 
-#: wp-trello.php:160
+#: wp-trello.php:162
 msgid "WP Trello Settings"
 msgstr ""
 
-#: wp-trello.php:297
-msgid "All"
-msgstr ""
-
-#: wp-trello.php:314
+#: wp-trello.php:302
 msgid "Suggestions"
 msgstr ""
 
-#: wp-trello.php:315
+#: wp-trello.php:303
 msgid "Planning"
 msgstr ""
 
-#: wp-trello.php:316
+#: wp-trello.php:304
 msgid "In progress"
 msgstr ""
 
-#: wp-trello.php:317
+#: wp-trello.php:305
 msgid "Finalizing"
+msgstr ""
+
+#: wp-trello.php:324
+msgid "Found"
+msgstr ""
+
+#: wp-trello.php:324
+msgid "hits"
+msgstr ""
+
+#: wp-trello.php:326
+msgid "All"
 msgstr ""
