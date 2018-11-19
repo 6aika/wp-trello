@@ -1,15 +1,16 @@
-# Copyright (C) 2017
+# Copyright (C) 2018
 # This file is distributed under the same license as the  package.
 # Translators:
 # Mikko Nieminen <mikko.nieminen@gofore.com>, 2017
 # Joonas Dukpa, 2018
 # Hami Kekkonen <hami.kekkonen@hel.fi>, 2018
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/wp-trello\n"
-"POT-Creation-Date: 2017-10-23 17:52:13+00:00\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2018-11-08 12:16:50+00:00\n"
+"PO-Revision-Date: 2017-10-24 08:11+0000\n"
 "Last-Translator: Hami Kekkonen <hami.kekkonen@hel.fi>, 2018\n"
 "Language-Team: Finnish (https://www.transifex.com/6aika-dataportal/teams/68018/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -84,34 +85,42 @@ msgstr "ID:"
 msgid "Add Link"
 msgstr "Lisää linkki"
 
-#: wp-trello.php:131
+#: wp-trello.php:133
 msgid "WP Trello"
 msgstr "WP Trello"
 
-#: wp-trello.php:139
+#: wp-trello.php:141
 msgid "Settings"
 msgstr "Asetukset"
 
-#: wp-trello.php:160
+#: wp-trello.php:162
 msgid "WP Trello Settings"
 msgstr "WP Trello asetukset"
 
-#: wp-trello.php:298
-msgid "All"
-msgstr "Kaikki"
-
-#: wp-trello.php:315
+#: wp-trello.php:302
 msgid "Suggestions"
 msgstr "Ideat / ehdotukset"
 
-#: wp-trello.php:316
+#: wp-trello.php:303
 msgid "Planning"
 msgstr "Suunnitteilla"
 
-#: wp-trello.php:317
+#: wp-trello.php:304
 msgid "In progress"
 msgstr "Työn alla"
 
-#: wp-trello.php:318
+#: wp-trello.php:305
 msgid "Finalizing"
 msgstr "Loppusuoralla"
+
+#: wp-trello.php:324
+msgid "Found"
+msgstr "Löytyi"
+
+#: wp-trello.php:324
+msgid "hits"
+msgstr "osumaa"
+
+#: wp-trello.php:326
+msgid "All"
+msgstr "Kaikki"
