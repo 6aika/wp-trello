@@ -354,7 +354,7 @@ class wp_trello {
 							$html .= '</div>';
 
 							$html .= '<div class="fluidtable__cell fluidtable__cell--title">';
-								$html .= '<div class="fluidtable__cell-content"><h3 class="heading">'.$card->name.'</h3></div>';
+						    $html .= '<div class="fluidtable__cell-content"><h2 class="heading">'.$card->name.'</h2></div>';
 							$html .= '</div>';
 							$desc = $card->desc;
 							if ( $desc == '' ) $desc = ' - ';
