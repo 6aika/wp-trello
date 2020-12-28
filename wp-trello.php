@@ -322,7 +322,7 @@ class wp_trello {
 			$html .= '<div class="fluidtable">';
 			$html .= '<div class="container-fluid roadmap-filterbar">';
 				$html .= '<span>'. __( 'Found', $this->plugin_l10n ) . ' <span id="roadmap-hits">' . sizeof($data_active) . '</span> ' . __( 'hits', $this->plugin_l10n ) . '</span>';
-        $html .= '<select id="label-filter" class="form-control">';
+        $html .= '<select id="label-filter" class="form-control" aria-label='. __( 'Sort', $this->plugin_l10n ) . '>';
         $html .= '<option selected value="">'. __( 'All', $this->plugin_l10n ) . '</option>';
         $cities = $this->getDistinctLabelNames($data, null);
         foreach($cities as $labelName) {
@@ -354,7 +354,7 @@ class wp_trello {
 							$html .= '</div>';
 
 							$html .= '<div class="fluidtable__cell fluidtable__cell--title">';
-								$html .= '<div class="fluidtable__cell-content"><h3 class="heading">'.$card->name.'</h3></div>';
+						    $html .= '<div class="fluidtable__cell-content"><h2 class="heading">'.$card->name.'</h2></div>';
 							$html .= '</div>';
 							$desc = $card->desc;
 							if ( $desc == '' ) $desc = ' - ';
